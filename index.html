@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anjali Mishra - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        .nav-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            background: linear-gradient(145deg, #2a2a2a, #333);
+            border: none;
+            color: aqua;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(145deg, #333, #2a2a2a);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 2rem;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            background: linear-gradient(145deg, #222, #2a2a2a);
+            padding: 2rem;
+            border-radius: 20px;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid aqua;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        .profile-image img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        } 
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .auto-type {
+            color: aqua;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            background: linear-gradient(145deg, #222, #2a2a2a);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: pink;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .project-card {
+            background: rgba(255, 192, 203, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            color: aqua;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        a {
+            color: aqua;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-container">
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="scrollToSection('home')">Home</button>
+            <button class="nav-button" onclick="scrollToSection('skills')">Skills</button>
+            <button class="nav-button" onclick="scrollToSection('projects')">Projects</button>
+            <button class="nav-button" onclick="scrollToSection('contact')">Contact</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="home" class="hero">
+            <div class="profile-image">
+                <img src="C:\Users\mishr\Downloads\20231027_010318 - Copy.png" alt="Anjalimishra"/>
+                
+            </div>
+            <div class="hero-content">
+                <h1 class="auto-type"></h1>
+                <p>Hello! I'm Anjali Mishra, a passionate AWS solutions architect currently pursuing BTech with domain cloud computing from LPU. I'm driven by innovation and solving complex challenges.</p>
+                <br>
+                <p>As I embark on my career journey, I'm eager to contribute my skills to my company. I'm excited about the opportunity to bring my expertise and passion to a dynamic team.</p>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-item">PYTHON</div>
+                <div class="skill-item">HTML</div>
+                <div class="skill-item">CSS</div>
+                <div class="skill-item">Docker</div>
+                <div class="skill-item">BASIC OF SQL</div>
+                <div class="skill-item">C/C++</div>
+                <div class="skill-item">JAVA & DSA</div>
+                
+                <div class="skill-item">As a cloud domain Currently learning aws and linux</div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2 class="section-title">Projects</h2>
+            <div class="project-card">
+                <h3 class="project-title">Portfolio Website</h3>
+                <p>I created sports and fitness club website & noise pollution website.</p>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">GUI BASED PROJECT</h3>
+                <p>A Python-based app to display to-do-list application and rock paper scissor game.</p>
+            </div>
+        </section>
+        
+        <section id="extracurricular" class="section">
+            <h2 class="section-title">Extracurricular Activities</h2>
+            <div class="skills-grid">
+                <div class="skill-item">NSS Member</div>
+                <div class="skill-item">Volunteer in college/community events</div>
+            </div>
+        </section>
+
+
+
+
+
+
+        <section id="contact" class="section">
+            <h2 class="section-title">Contact Me</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <a href="mailto:mishrasitu88@gmail.com">mishrasitu88@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>💼</span>
+                    <a href="https://www.linkedin.com/in/anjali-mishra-212536298/" target="_blank">LinkedIn Profile</a>
+                </div>
+                <div class="contact-item">
+                    <span>💻</span>
+                    <a href="https://github.com/AnjaliMishra1st/" target="_blank">GitHub Profile</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Auto-typing effect
+        new Typed(".auto-type", {
+            strings: ["AWS Solutions Architect", "BTech Student", "Cloud Computing Enthusiast"],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+
+        // Smooth scrolling
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
