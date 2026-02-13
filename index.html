@@ -23,6 +23,7 @@
             --primary-color: #1a365d;
             --secondary-color: #326ce5;
             --accent-color: #38a169;
+            --softskill-color: #9f7aea;
             --text-color: #2d3748;
             --light-text: #718096;
             --background: #f7fafc;
@@ -30,6 +31,7 @@
             --dark-bg: #1a202c;
             --gradient: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
             --gradient-blue: linear-gradient(135deg, #326ce5 0%, #4299e1 100%);
+            --gradient-soft: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
         }
@@ -40,7 +42,6 @@
             color: var(--text-color);
             background: var(--background);
             overflow-x: hidden;
-            transition: all 0.3s ease;
         }
 
         .container {
@@ -73,7 +74,7 @@
             display: none !important;
         }
 
-        .btn-primary, .btn-secondary, .btn-github {
+        .btn-primary, .btn-secondary, .btn-github, .btn-cv {
             padding: 12px 30px;
             border-radius: 25px;
             text-decoration: none;
@@ -81,7 +82,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             cursor: pointer;
             border: none;
             font-family: 'Poppins', sans-serif;
@@ -121,7 +122,18 @@
             transform: translateY(-3px);
         }
 
-        /* ====== PARTICLES BACKGROUND ====== */
+        .btn-cv {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-cv:hover {
+            background: #2f855a;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        /* ====== FIXED BACKGROUND - NO FLICKER ====== */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -129,7 +141,8 @@
             top: 0;
             left: 0;
             z-index: -1;
-            background: var(--gradient);
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            pointer-events: none;
         }
 
         /* ====== NAVIGATION ====== */
@@ -237,12 +250,17 @@
             min-height: 100vh;
             padding: 100px 20px 50px;
             position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            transition: opacity 0.4s ease;
         }
 
         /* ====== HOME SECTION ====== */
         #home {
             display: flex;
             align-items: center;
+            background: transparent;
+            backdrop-filter: none;
         }
 
         .hero-content {
@@ -260,18 +278,33 @@
             margin-bottom: 10px;
         }
 
+        /* FIXED AUTO-TYPE STYLES - Better contrast */
         .auto-type {
             font-size: 3.5rem;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 1.5rem;
-            min-height: 120px;
+            min-height: 160px;
+            line-height: 1.2;
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 100%;
         }
 
         .hero-description p {
             font-size: 1.1rem;
-            color: var(--light-text);
+            color: var(--text-color);
             margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
         }
 
         .hero-buttons {
@@ -289,12 +322,30 @@
             position: relative;
             width: 100%;
             height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Profile photo */
+        .profile-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: var(--shadow-lg);
+            z-index: 2;
+            position: relative;
         }
 
         .floating-elements {
             position: absolute;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
         }
 
         .floating-icon {
@@ -308,40 +359,42 @@
             justify-content: center;
             font-size: 2rem;
             box-shadow: var(--shadow);
-            animation: float 6s ease-in-out infinite;
+            animation: floatSmooth 7s ease-in-out infinite;
+            will-change: transform;
         }
 
         .floating-icon.docker {
-            top: 20%;
-            left: 10%;
+            top: 15%;
+            left: 5%;
             color: #2496ed;
             animation-delay: 0s;
         }
 
         .floating-icon.kubernetes {
-            top: 60%;
-            left: 20%;
+            top: 65%;
+            left: 15%;
             color: #326ce5;
-            animation-delay: 1s;
+            animation-delay: 1.5s;
         }
 
         .floating-icon.aws {
-            top: 30%;
-            right: 20%;
+            top: 25%;
+            right: 15%;
             color: #FF9900;
-            animation-delay: 2s;
+            animation-delay: 2.8s;
         }
 
         .floating-icon.github {
             top: 70%;
-            right: 10%;
+            right: 5%;
             color: #333;
-            animation-delay: 3s;
+            animation-delay: 4s;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        @keyframes floatSmooth {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-15px) rotate(2deg); }
+            66% { transform: translateY(-5px) rotate(-2deg); }
         }
 
         .scroll-indicator {
@@ -350,13 +403,17 @@
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
-            color: var(--light-text);
+            color: var(--text-color);
+            background: rgba(255,255,255,0.8);
+            padding: 10px 20px;
+            border-radius: 40px;
+            backdrop-filter: blur(5px);
         }
 
         .mouse {
             width: 30px;
             height: 50px;
-            border: 2px solid var(--light-text);
+            border: 2px solid var(--secondary-color);
             border-radius: 20px;
             margin: 0 auto 10px;
             position: relative;
@@ -365,7 +422,7 @@
         .wheel {
             width: 4px;
             height: 8px;
-            background: var(--light-text);
+            background: var(--secondary-color);
             border-radius: 2px;
             position: absolute;
             top: 8px;
@@ -513,6 +570,53 @@
             border-radius: 20px;
             font-size: 0.9rem;
             color: var(--text-color);
+        }
+
+        /* Soft Skills Section */
+        .soft-skills-container {
+            margin-top: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .soft-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .soft-skill-card {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d8fd 100%);
+            padding: 1.8rem 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            border-bottom: 4px solid var(--softskill-color);
+        }
+
+        .soft-skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .soft-skill-icon {
+            font-size: 2.2rem;
+            color: var(--softskill-color);
+            margin-bottom: 1rem;
+        }
+
+        .soft-skill-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .soft-skill-card p {
+            font-size: 0.9rem;
+            color: var(--light-text);
         }
 
         /* ====== PROJECTS SECTION ====== */
@@ -711,6 +815,118 @@
             font-size: 0.8rem;
             color: var(--secondary-color);
             margin-top: 1rem;
+        }
+
+        /* ====== CERTIFICATIONS SECTION ====== */
+        #certifications {
+            background: white;
+            padding: 100px 20px 50px;
+        }
+        
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .cert-card {
+            background: var(--background);
+            border-radius: 16px;
+            padding: 1.8rem 1.5rem;
+            box-shadow: var(--shadow);
+            transition: 0.25s ease;
+            border-left: 6px solid var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cert-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .cert-icon {
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .cert-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .cert-issuer {
+            font-weight: 500;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+            margin: 0.5rem 0 0.2rem;
+        }
+        
+        .cert-date {
+            color: var(--light-text);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0.4rem 0;
+        }
+        
+        .cert-id {
+            background: #e9edf5;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin: 10px 0 5px;
+            color: #2d3748;
+        }
+        
+        .verify-link {
+            margin-top: auto;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            border-top: 1px dashed #cbd5e0;
+            padding-top: 12px;
+        }
+        
+        .verify-link:hover {
+            color: var(--primary-color);
+            gap: 10px;
+        }
+        
+        .github-cert-link {
+            text-align: center;
+            margin: 3rem 0 1rem;
+        }
+        
+        .btn-cert-github {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #333;
+            color: white;
+            padding: 14px 35px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-cert-github:hover {
+            background: #24292e;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            gap: 15px;
         }
 
         /* ====== BLOG SECTION ====== */
@@ -1058,6 +1274,58 @@
             border-color: var(--secondary-color);
         }
 
+        /* ====== CV DOWNLOAD SECTION ====== */
+        .cv-download-section {
+            text-align: center;
+            margin: 4rem 0 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f0fa 100%);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .cv-download-section h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .cv-download-section p {
+            color: var(--light-text);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-download-cv {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--accent-color);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-download-cv:hover {
+            background: #2f855a;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            gap: 15px;
+        }
+
+        .btn-download-cv i {
+            font-size: 1.3rem;
+        }
+
         /* ====== FOOTER ====== */
         .footer {
             background: var(--dark-bg);
@@ -1132,11 +1400,20 @@
                 text-align: center;
             }
             
+            .auto-type {
+                font-size: 2.8rem;
+                min-height: 140px;
+            }
+            
             .about-content {
                 grid-template-columns: 1fr;
             }
             
             .skills-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .soft-skills-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
@@ -1167,7 +1444,8 @@
             }
             
             .auto-type {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
+                min-height: 120px;
             }
             
             .stats-grid {
@@ -1178,11 +1456,19 @@
                 grid-template-columns: 1fr;
             }
             
+            .soft-skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .projects-grid {
                 grid-template-columns: 1fr;
             }
             
             .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cert-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -1206,14 +1492,15 @@
             }
             
             .auto-type {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                min-height: 100px;
             }
             
             .hero-buttons {
                 flex-direction: column;
             }
             
-            .btn-primary, .btn-secondary, .btn-github {
+            .btn-primary, .btn-secondary, .btn-github, .btn-cv {
                 width: 100%;
                 justify-content: center;
             }
@@ -1229,6 +1516,11 @@
             
             .social-login {
                 flex-direction: column;
+            }
+            
+            .profile-photo {
+                width: 220px;
+                height: 220px;
             }
         }
     </style>
@@ -1250,6 +1542,7 @@
                 <a onclick="showSection('skills')">Skills</a>
                 <a onclick="showSection('projects')">Projects</a>
                 <a onclick="showSection('achievements')">Achievements</a>
+                <a onclick="showSection('certifications')">Certifications</a>
                 <a onclick="showSection('blog')">Blog</a>
                 <a onclick="showSection('login')" class="btn-login">Login</a>
             </div>
@@ -1279,6 +1572,8 @@
             </div>
             <div class="hero-image">
                 <div class="image-container">
+                    <!-- Profile photo - Using your PostImage link -->
+                    <img src="https://i.postimg.cc/xcCjfYKM/Anajlilinkdin-image-1.jpg" alt="Anjali Mishra" class="profile-photo">
                     <div class="floating-elements">
                         <div class="floating-icon docker">
                             <i class="fab fa-docker"></i>
@@ -1356,7 +1651,7 @@
         </div>
     </section>
 
-    <!-- Skills Section (Hidden by default) -->
+    <!-- Skills Section (Hidden by default) - UPDATED WITH SOFT SKILLS -->
     <section id="skills" class="page-section hidden">
         <div class="container">
             <h2 class="section-title">Technical Skills</h2>
@@ -1424,6 +1719,59 @@
                         <span class="skill-tag">Postman</span>
                         <span class="skill-tag">Docker Compose</span>
                         <span class="skill-tag">Kubectl</span>
+                        <span class="skill-tag">Terraform</span>
+                        <span class="skill-tag">Ansible</span>
+                        <span class="skill-tag">Prometheus</span>
+                        <span class="skill-tag">Grafana</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW SOFT SKILLS SECTION -->
+            <div class="soft-skills-container">
+                <h3 style="font-size: 1.8rem; text-align: center; color: var(--primary-color); margin-bottom: 1rem;">
+                    <i class="fas fa-heart" style="color: var(--softskill-color);"></i> Soft Skills
+                </h3>
+                <div class="soft-skills-grid">
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-brain"></i></div>
+                        <h4>Quick Learner</h4>
+                        <p>Adapt rapidly to new technologies and frameworks with enthusiasm</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-users"></i></div>
+                        <h4>Team Collaboration</h4>
+                        <p>Effective in cross-functional teams and open-source communities</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-puzzle-piece"></i></div>
+                        <h4>Problem Solver</h4>
+                        <p>Analytical mindset with creative approach to debugging</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-sync-alt"></i></div>
+                        <h4>Adaptability</h4>
+                        <p>Thrive in dynamic environments and embrace new challenges</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-comments"></i></div>
+                        <h4>Communication</h4>
+                        <p>Clear technical writing and effective verbal communication</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-clock"></i></div>
+                        <h4>Time Management</h4>
+                        <p>Balance academics, open source, and personal projects efficiently</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-lightbulb"></i></div>
+                        <h4>Critical Thinking</h4>
+                        <p>Evaluate multiple solutions to find optimal approaches</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon"><i class="fas fa-handshake"></i></div>
+                        <h4>Mentorship</h4>
+                        <p>Guide junior developers and contribute to community growth</p>
                     </div>
                 </div>
             </div>
@@ -1493,14 +1841,13 @@
                             <span><i class="fas fa-bug"></i> CI/CD Pipeline</span>
                             <span><i class="fas fa-calendar"></i> AUG-NOV 2025</span>
                         </div>
-                        <p class="project-detail"> Designed an end-to-end CI/CD workflow where Jenkins builds Docker images and deploys applications
-            to a local Kubernetes (kind) cluster without using cloud services.</p>
+                        <p class="project-detail"> Designed an end-to-end CI/CD workflow where Jenkins builds Docker images and deploys applications to a local Kubernetes (kind) cluster without using cloud services.</p>
                         <div class="project-tech">
                             <span>Jenkins</span>
                             <span>Docker</span>
-                            <span>Kubernates (kind) </span>
+                            <span>Kubernetes (kind)</span>
                             <span>Github Actions</span>
-                             <span>Flask</span>
+                            <span>Flask</span>
                         </div>
                     </div>
                     <div class="project-footer">
@@ -1626,6 +1973,60 @@
                         <li style="padding: 0.5rem 0; color: var(--light-text);">Aug 2025: First PR in Techtonica Curriculum</li>
                     </ul>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CERTIFICATIONS Section with GitHub link -->
+    <section id="certifications" class="page-section hidden">
+        <div class="container">
+            <h2 class="section-title">Licenses & Certifications</h2>
+            <div class="cert-grid">
+                <!-- 1. INFOSYS pdf : Computational Theory -->
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fas fa-microchip"></i></div>
+                    <h3>Computational Theory: Language Principle & Finite Automata Theory</h3>
+                    <div class="cert-issuer">Infosys / onwingspan</div>
+                    <div class="cert-date"><i class="far fa-calendar-alt"></i> Issued Dec 2025</div>
+                    <span class="cert-id">ID: verify QR</span>
+                    <a href="#" class="verify-link" onclick="alert('Verify at https://verify.onwingspan.com');"><i class="fas fa-qrcode"></i> Verify online</a>
+                </div>
+                <!-- 2. csepathshala.png : DSA Python -->
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fas fa-code"></i></div>
+                    <h3>Data Structures and Algorithm using Python</h3>
+                    <div class="cert-issuer">CSE Pathshala · 35+ hours live</div>
+                    <div class="cert-date"><i class="far fa-calendar-alt"></i> Issued Aug 2025</div>
+                    <span class="cert-id">CP-20250607-DSA-083</span>
+                    <a href="#" class="verify-link" onclick="alert('Training completed 10 Jun-28 Jul 2025');"><i class="fas fa-certificate"></i> Show credential</a>
+                </div>
+                <!-- 3. Microsoft Azure Certificate -->
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fab fa-microsoft"></i></div>
+                    <h3>Microsoft Azure · All India Internship</h3>
+                    <div class="cert-issuer">SKILL ASSESSMENT CERTIFICATE PROGRAM</div>
+                    <div class="cert-date"><i class="far fa-calendar-alt"></i> Score: 75/25.1</div>
+                    <span class="cert-id">Ref: AM 75/25.1</span>
+                    <a href="#" class="verify-link" onclick="alert('Microsoft Azure participation certificate');"><i class="fas fa-cloud"></i> Azure badge</a>
+                </div>
+                <!-- 4. CSE12IHAC.jpg : Code Off Duty hackathon -->
+                <div class="cert-card">
+                    <div class="cert-icon"><i class="fas fa-trophy"></i></div>
+                    <h3>Code Off Duty - Web Hackathon</h3>
+                    <div class="cert-issuer">Coding Wise · Sagar Chouksey</div>
+                    <div class="cert-date"><i class="far fa-calendar-alt"></i> 8-9 Mar 2024</div>
+                    <span class="cert-id">CODT048TP8789</span>
+                    <a href="#" class="verify-link" onclick="alert('Demonstrated exceptional skills, creativity & teamwork');"><i class="fas fa-medal"></i> Hackathon achievement</a>
+                </div>
+            </div>
+            
+            <!-- GitHub Certifications Link -->
+            <div class="github-cert-link">
+                <a href="https://github.com/AnjaliMishra1st/my-certifications/commits/main/" target="_blank" class="btn-cert-github">
+                    <i class="fab fa-github"></i> View All Certificates on GitHub
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <p style="margin-top: 1rem; color: var(--light-text);">Browse my complete certification repository with all credentials</p>
             </div>
         </div>
     </section>
@@ -1896,6 +2297,17 @@
                     </form>
                 </div>
             </div>
+
+            <!-- CV DOWNLOAD SECTION - ADDED HERE -->
+            <div class="cv-download-section">
+                <h3><i class="fas fa-file-pdf" style="color: var(--accent-color);"></i> Download My Resume</h3>
+                <p>Get a complete overview of my experience, projects, and certifications in PDF format.</p>
+                <a href="#" class="btn-download-cv" onclick="alert('CV download will be available soon! Please check back later.')">
+                    <i class="fas fa-download"></i> Download CV (PDF)
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem;">*CV will be updated regularly with new achievements</p>
+            </div>
         </div>
     </section>
 
@@ -1910,6 +2322,7 @@
                 <div class="footer-links">
                     <a onclick="showSection('home')">Home</a>
                     <a onclick="showSection('projects')">Projects</a>
+                    <a onclick="showSection('certifications')">Certifications</a>
                     <a onclick="showSection('blog')">Blog</a>
                     <a onclick="showSection('contact')">Contact</a>
                     <a onclick="showSection('login')">Login</a>
@@ -1933,42 +2346,44 @@
     <script>
         // ====== INITIALIZATION ======
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize particles.js
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: "#ffffff" },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.3, random: true },
-                    size: { value: 3, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#ffffff",
-                        opacity: 0.2,
-                        width: 1
+            // Initialize particles.js with optimized settings for no flicker
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 60, density: { enable: true, value_area: 800 } },
+                        color: { value: "#ffffff" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.2, random: true },
+                        size: { value: 2, random: true },
+                        line_linked: {
+                            enable: true,
+                            distance: 150,
+                            color: "#ffffff",
+                            opacity: 0.15,
+                            width: 1
+                        },
+                        move: {
+                            enable: true,
+                            speed: 1.5,
+                            direction: "none",
+                            random: true,
+                            straight: false,
+                            out_mode: "out",
+                            bounce: false
+                        }
                     },
-                    move: {
-                        enable: true,
-                        speed: 2,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" }
-                    }
-                },
-                retina_detect: true
-            });
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: {
+                            onhover: { enable: false, mode: "repulse" },
+                            onclick: { enable: false, mode: "push" }
+                        }
+                    },
+                    retina_detect: true
+                });
+            }
 
-            // Auto typing effect
+            // AUTO-TYPE EFFECT
             const roles = [
                 "Anjali Mishra",
                 "Cloud Computing Specialist",
@@ -1980,73 +2395,67 @@
             let roleIndex = 0;
             let charIndex = 0;
             let isDeleting = false;
-            const typingSpeed = 100;
-            const deletingSpeed = 50;
+            const typingSpeed = 120;
+            const deletingSpeed = 60;
             const pauseTime = 2000;
             
             const typeElement = document.querySelector('.auto-type');
-            
-            function typeEffect() {
-                const currentRole = roles[roleIndex];
+            if (typeElement) {
+                // Ensure element has initial content
+                typeElement.textContent = '|';
                 
-                if (isDeleting) {
-                    typeElement.textContent = currentRole.substring(0, charIndex - 1);
-                    charIndex--;
-                    setTimeout(typeEffect, deletingSpeed);
-                } else {
-                    typeElement.textContent = currentRole.substring(0, charIndex + 1);
-                    charIndex++;
-                    setTimeout(typeEffect, typingSpeed);
+                function typeEffect() {
+                    const currentRole = roles[roleIndex];
+                    
+                    if (isDeleting) {
+                        // Deleting
+                        typeElement.textContent = currentRole.substring(0, charIndex - 1) + '|';
+                        charIndex--;
+                        if (charIndex === 0) {
+                            isDeleting = false;
+                            roleIndex = (roleIndex + 1) % roles.length;
+                            setTimeout(typeEffect, 300);
+                            return;
+                        }
+                    } else {
+                        // Typing
+                        typeElement.textContent = currentRole.substring(0, charIndex + 1) + '|';
+                        charIndex++;
+                        if (charIndex === currentRole.length) {
+                            isDeleting = true;
+                            setTimeout(typeEffect, pauseTime);
+                            return;
+                        }
+                    }
+                    
+                    setTimeout(typeEffect, isDeleting ? deletingSpeed : typingSpeed);
                 }
                 
-                if (!isDeleting && charIndex === currentRole.length) {
-                    isDeleting = true;
-                    setTimeout(typeEffect, pauseTime);
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    roleIndex = (roleIndex + 1) % roles.length;
-                    setTimeout(typeEffect, 500);
-                }
+                // Start typing after a short delay
+                setTimeout(() => {
+                    typeElement.textContent = '';
+                    typeEffect();
+                }, 500);
             }
-            
-            setTimeout(typeEffect, 1000);
 
-            // Initialize skill bars
+            // Animate skill bars when visible
             animateSkillBars();
-
-            // Initialize form submissions
             initializeForms();
-
-            // Initialize project filtering
             initializeProjectFilters();
         });
 
-        // ====== SECTION NAVIGATION ======
         function showSection(sectionId) {
-            // Hide all sections
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.add('hidden');
             });
-            
-            // Show selected section
             document.getElementById(sectionId).classList.remove('hidden');
-            
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Close mobile menu if open
             closeMobileMenu();
         }
 
-        function showSignup() {
-            showSection('signup');
-        }
+        function showSignup() { showSection('signup'); }
+        function showLogin() { showSection('login'); }
 
-        function showLogin() {
-            showSection('login');
-        }
-
-        // ====== MOBILE MENU ======
         function toggleMobileMenu() {
             const navLinks = document.querySelector('.nav-links');
             if (navLinks.style.display === 'flex') {
@@ -2069,10 +2478,8 @@
             navLinks.style.display = '';
         }
 
-        // ====== SKILL BARS ANIMATION ======
         function animateSkillBars() {
             const skillItems = document.querySelectorAll('.skill-item');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -2081,19 +2488,17 @@
                             const skillLevel = item.querySelector('.skill-level');
                             setTimeout(() => {
                                 skillLevel.style.width = level + '%';
-                            }, 300);
+                            }, 200);
                         });
+                        observer.disconnect(); // Only animate once
                     }
                 });
-            }, { threshold: 0.5 });
+            }, { threshold: 0.3 });
             
             const skillsSection = document.querySelector('#skills');
-            if (skillsSection) {
-                observer.observe(skillsSection);
-            }
+            if (skillsSection) observer.observe(skillsSection);
         }
 
-        // ====== PROJECT FILTERING ======
         function initializeProjectFilters() {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const projectCards = document.querySelectorAll('.project-card');
@@ -2113,7 +2518,7 @@
                             setTimeout(() => {
                                 card.style.opacity = '1';
                                 card.style.transform = 'translateY(0)';
-                            }, 100);
+                            }, 50);
                         } else {
                             card.style.opacity = '0';
                             card.style.transform = 'translateY(20px)';
@@ -2126,67 +2531,54 @@
             });
         }
 
-        // ====== FORM HANDLING ======
         function initializeForms() {
-            // Login form
             const loginForm = document.getElementById('loginForm');
             if (loginForm) {
                 loginForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const email = document.getElementById('email').value;
-                    alert(`Welcome back! Login successful for ${email}`);
+                    alert(`Welcome back! Login successful for ${document.getElementById('email').value}`);
                     loginForm.reset();
                 });
             }
-
-            // Signup form
+            
             const signupForm = document.getElementById('signupForm');
             if (signupForm) {
                 signupForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const name = document.getElementById('fullName').value;
-                    const email = document.getElementById('signupEmail').value;
-                    
                     if (document.getElementById('signupPassword').value !== document.getElementById('confirmPassword').value) {
                         alert('Passwords do not match!');
                         return;
                     }
-                    
-                    alert(`Welcome ${name}! Account created successfully for ${email}`);
+                    alert(`Welcome ${document.getElementById('fullName').value}! Account created.`);
                     signupForm.reset();
                     showLogin();
                 });
             }
-
-            // Contact form
+            
             const messageForm = document.getElementById('messageForm');
             if (messageForm) {
                 messageForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const name = messageForm.querySelector('input[type="text"]').value;
-                    alert(`Thank you ${name}! Your message has been sent successfully. I'll get back to you soon!`);
+                    alert('Message sent! I\'ll get back soon.');
                     messageForm.reset();
                 });
             }
         }
 
-        // ====== PASSWORD TOGGLE ======
         function togglePassword(fieldId) {
             const field = document.getElementById(fieldId);
             const icon = field.parentElement.querySelector('i');
-            
             if (field.type === 'password') {
                 field.type = 'text';
-                icon.classList.remove('fa-eye');
+                icon.classList.remove('fa-eye'); 
                 icon.classList.add('fa-eye-slash');
             } else {
                 field.type = 'password';
-                icon.classList.remove('fa-eye-slash');
+                icon.classList.remove('fa-eye-slash'); 
                 icon.classList.add('fa-eye');
             }
         }
 
-        // ====== PASSWORD STRENGTH CHECKER ======
         function checkPasswordStrength(password) {
             let strength = 0;
             if (password.length >= 8) strength++;
@@ -2194,60 +2586,21 @@
             if (/[0-9]/.test(password)) strength++;
             if (/[^A-Za-z0-9]/.test(password)) strength++;
             
-            const colors = ['#e53e3e', '#ed8936', '#ecc94b', '#48bb78'];
-            const texts = ['Very weak', 'Weak', 'Good', 'Strong'];
+            const colors = ['#e53e3e','#ed8936','#ecc94b','#48bb78'];
+            const texts = ['Very weak','Weak','Good','Strong'];
             
             const strengthBar = document.getElementById('strengthBar');
             const strengthText = document.getElementById('strengthText');
             
             if (strengthBar && strengthText) {
                 strengthBar.style.width = `${strength * 25}%`;
-                strengthBar.style.background = colors[strength - 1] || '#e53e3e';
-                strengthText.textContent = `Password strength: ${texts[strength - 1] || 'Very weak'}`;
+                strengthBar.style.background = colors[strength-1] || '#e53e3e';
+                strengthText.textContent = `Password strength: ${texts[strength-1] || 'Very weak'}`;
             }
         }
 
-        // ====== SOCIAL LOGIN ======
         function socialLogin(provider) {
-            alert(`Redirecting to ${provider} authentication... (Demo)`);
-        }
-
-        // ====== ALERT FUNCTION ======
-        function showAlert(message, type = 'info') {
-            const alertDiv = document.createElement('div');
-            alertDiv.textContent = message;
-            alertDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 8px;
-                color: white;
-                font-weight: 500;
-                z-index: 10000;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-                animation: slideIn 0.3s ease;
-            `;
-            
-            const colors = {
-                success: '#38a169',
-                error: '#e53e3e',
-                info: '#3182ce',
-                warning: '#d69e2e'
-            };
-            
-            alertDiv.style.background = colors[type] || '#3182ce';
-            
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                alertDiv.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    if (alertDiv.parentNode) {
-                        alertDiv.parentNode.removeChild(alertDiv);
-                    }
-                }, 300);
-            }, 3000);
+            alert(`Redirecting to ${provider} authentication ... (demo)`);
         }
     </script>
 </body>
